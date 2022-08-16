@@ -3,6 +3,5 @@
   <slot />
 </template>
 
-<script>
-export default {}
+<script lang="ts">
 </script>

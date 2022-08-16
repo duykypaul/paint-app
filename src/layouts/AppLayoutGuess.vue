@@ -6,17 +6,16 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "AppLayoutDefault"
-}
+<script lang="ts">
 </script>
 
 <style scoped lang="scss">
-.common-layout {
+@import "./src/assets/scss/_variables.scss";
+.guess-layout {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  width: 100vw;
   overflow: auto;
   background-color: $background-color-base;
   background-image: url("./src/assets/images/guess-layout.svg");

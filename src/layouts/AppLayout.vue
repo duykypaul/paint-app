@@ -16,8 +16,8 @@ watch(
     () => route.meta?.layout as string | undefined,
     async (metaLayout) => {
       try {
-        console.log(`./${metaLayout}.vue`)
-        const component = metaLayout && await import(/*@vite-ignore*/ `./${metaLayout}.vue`)
+        let path = `./${metaLayout}.vue`
+        const component = metaLayout && await import(/*@vite-ignore*/ path)
         layout.value = markRaw(component?.default || AppLayoutDefault)
       } catch (e) {
         layout.value = markRaw(AppLayoutDefault)

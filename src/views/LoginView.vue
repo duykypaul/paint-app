@@ -20,7 +20,9 @@
           :rules="[{ required: true, message: 'Please input your username!' }]"
       >
         <a-input v-model:value="formState.username" placeholder="Username">
-          <template #prefix><UserOutlined style="color: rgba(0, 0, 0, 0.25)" /></template>
+          <template #prefix>
+            <UserOutlined style="color: rgba(0, 0, 0, 0.25)"/>
+          </template>
         </a-input>
       </a-form-item>
 
@@ -29,7 +31,9 @@
           :rules="[{ required: true, message: 'Please input your password!' }]"
       >
         <a-input v-model:value="formState.password" placeholder="Password" type="password">
-          <template #prefix><LockOutlined style="color: rgba(0, 0, 0, 0.25)" /></template>
+          <template #prefix>
+            <LockOutlined style="color: rgba(0, 0, 0, 0.25)"/>
+          </template>
         </a-input>
       </a-form-item>
 
@@ -43,8 +47,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
+import {reactive} from 'vue';
+import {LockOutlined, UserOutlined} from '@ant-design/icons-vue';
+
+import {useAuthStore} from "@/stores";
 
 interface FormState {
   username: string;
@@ -55,8 +61,12 @@ const formState = reactive<FormState>({
   username: '',
   password: '',
 });
+
 const onFinish = (values: any) => {
-  console.log('Success:', values);
+  const authStore = useAuthStore();
+  console.log('onFinish:', values);
+  const {username, password} = values;
+  return authStore.login(username, password).catch(error => console.log(error))
 };
 
 const onFinishFailed = (errorInfo: any) => {

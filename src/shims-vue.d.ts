@@ -1,4 +1,5 @@
 import VueRouter from 'vue-router'
+import "pinia";
 
 declare module '*.vue' {
     import type {DefineComponent} from 'vue'
@@ -10,5 +11,11 @@ declare module '*.vue' {
 declare module 'vue/types/vue' {
     interface Vue {
         $router: VueRouter
+    }
+}
+
+declare module 'pinia' {
+    export interface PiniaCustomProperties {
+        router: Router
     }
 }

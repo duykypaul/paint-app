@@ -34,6 +34,7 @@
         <a-button type="primary" class="submit" html-type="submit">Đăng nhập</a-button>
       </a-form-item>
     </a-form>
+    <h1>{{ $route.redirectedFrom.fullPath }}</h1>
   </div>
 </template>
 
@@ -87,7 +88,8 @@ const handleFinish = (values: FormState) => {
   const authStore = useAuthStore();
   console.log('onFinish:', values);
   const {username, password} = values;
-  return authStore.login(username, password).catch(error => console.log(error))
+  return authStore.login(username, password)
+      .catch(error => console.log(error))
 };
 const handleFinishFailed = (errors: any) => {
   console.log(errors);

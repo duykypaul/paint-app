@@ -69,9 +69,12 @@ router.resolve({
 router.beforeEach((to, from, next) => {
     const userStore = useUserStore();
     let token = localStorage.getItem('token');
-    let isAuthenticated = userStore.isLogged && token && isNotExpiryJwt(token)
-    if (to.name !== 'login' && to.meta?.requiresAuth && !isAuthenticated) next({name: 'login'})
-    else next()
+    let isAuthenticated = /*userStore.isLogged && */token && isNotExpiryJwt(token)
+    if (to.name !== 'login' && to.meta?.requiresAuth && !isAuthenticated) {
+        next({name: 'login'})
+    } else if (to.name === 'login' && isAuthenticated) {
+        next(from.path)
+    } else next()
 })
 
 export default router

@@ -34,7 +34,7 @@
         <a-button type="primary" class="submit" html-type="submit">Đăng nhập</a-button>
       </a-form-item>
     </a-form>
-    <h1>{{ $route.redirectedFrom.fullPath }}</h1>
+    <!--    <h1>{{ $route.redirectedFrom.fullPath }}</h1>-->
   </div>
 </template>
 
@@ -45,11 +45,18 @@ import type {FormInstance} from 'ant-design-vue';
 import {useAuthStore} from "@/stores";
 import {LockOutlined, UserOutlined} from '@ant-design/icons-vue';
 
+
+import { useRouter, useRoute} from 'vue-router'
+
 interface FormState {
   password: string;
   username: string;
 }
 
+const route = useRoute();
+const router = useRouter();
+console.log(route.redirectedFrom?.fullPath)
+console.log(router)
 const formRef = ref<FormInstance>();
 const formState = reactive<FormState>({
   password: '',
@@ -89,6 +96,10 @@ const handleFinish = (values: FormState) => {
   console.log('onFinish:', values);
   const {username, password} = values;
   return authStore.login(username, password)
+      /*.then(() => {
+        console.log("success", route.redirectedFrom?.fullPath)
+        router.push(route.redirectedFrom?.fullPath || '/')
+      })*/
       .catch(error => console.log(error))
 };
 const handleFinishFailed = (errors: any) => {
@@ -97,6 +108,8 @@ const handleFinishFailed = (errors: any) => {
 const handleValidate = (...args: any[]) => {
   console.log(args);
 };
+
+
 </script>
 
 <style lang="scss" scoped>

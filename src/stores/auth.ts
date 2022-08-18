@@ -3,6 +3,8 @@ import router from '@/router'
 
 import AuthService from "@/services/AuthService"
 
+import {useUserStore} from "@/stores/users";
+
 export const useAuthStore = defineStore({
   id: 'auth',
   state: () => ({
@@ -20,6 +22,8 @@ export const useAuthStore = defineStore({
 
         // store user details and jwt in local storage to keep user logged in between page refreshes
         localStorage.setItem('token', jwtDTO.data.token)
+
+        useUserStore().isLogged = true;
 
         // redirect to previous url or default to home page
         await router.push('/')

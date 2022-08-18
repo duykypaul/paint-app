@@ -5,7 +5,8 @@ export const useUserStore = defineStore({
   id: 'users',
   state: () => ({
     users: {},
-    user: {}
+    user: {},
+    isLogged: false
   }),
   actions: {
     async getById(id: Number) {

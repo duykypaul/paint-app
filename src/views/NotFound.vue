@@ -1,0 +1,19 @@
+<template>
+  <a-result status="404" title="404" sub-title="Xin lỗi, trang bạn đã truy cập không tồn tại.">
+    <template #extra>
+      <a-button type="primary" @click="() => $router.push('/')">
+        Quay lại trang chủ
+      </a-button>
+    </template>
+  </a-result>
+</template>
+
+<script>
+export default {
+  name: "NotFound"
+}
+</script>
+
+<style scoped>
+
+</style>

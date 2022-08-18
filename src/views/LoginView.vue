@@ -7,72 +7,94 @@
   </div>
   <div class="login">
     <a-form
-        layout="vertical"
+        ref="formRef"
+        name="login-form"
         :model="formState"
-        name="basic"
-        :wrapper-col="{ span: 24 }"
-        autocomplete="off"
-        @finish="onFinish"
-        @finishFailed="onFinishFailed"
+        :rules="rules"
+        v-bind="layout"
+        @finish="handleFinish"
+        @validate="handleValidate"
+        @finishFailed="handleFinishFailed"
     >
-      <a-form-item
-          name="username"
-          :rules="[{ required: true, message: 'Please input your username!' }]"
-      >
-        <a-input v-model:value="formState.username" placeholder="Username">
+      <a-form-item name="username">
+        <a-input v-model:value="formState.username" placeholder="Tên đăng nhập">
           <template #prefix>
             <UserOutlined style="color: rgba(0, 0, 0, 0.25)"/>
           </template>
         </a-input>
       </a-form-item>
-
-      <a-form-item
-          name="password"
-          :rules="[{ required: true, message: 'Please input your password!' }]"
-      >
-        <a-input v-model:value="formState.password" placeholder="Password" type="password">
+      <a-form-item has-feedback name="password">
+        <a-input-password v-model:value="formState.password" placeholder="Mật khẩu">
           <template #prefix>
             <LockOutlined style="color: rgba(0, 0, 0, 0.25)"/>
           </template>
-        </a-input>
+        </a-input-password>
       </a-form-item>
-
-      <a-form-item
-          :wrapper-col="{ span: 24 }"
-      >
-        <a-button type="primary" class="submit" html-type="submit">Submit</a-button>
+      <a-form-item v-bind="layout">
+        <a-button type="primary" class="submit" html-type="submit">Đăng nhập</a-button>
       </a-form-item>
     </a-form>
   </div>
 </template>
 
 <script setup lang="ts">
-import {reactive} from 'vue';
+import type {Rule} from 'ant-design-vue/es/form';
+import {reactive, ref} from 'vue';
+import type {FormInstance} from 'ant-design-vue';
+import {useAuthStore} from "@/stores";
 import {LockOutlined, UserOutlined} from '@ant-design/icons-vue';
 
-import {useAuthStore} from "@/stores";
-
 interface FormState {
-  username: string;
   password: string;
+  username: string;
 }
 
+const formRef = ref<FormInstance>();
 const formState = reactive<FormState>({
-  username: '',
   password: '',
+  username: '',
 });
-
-const onFinish = (values: any) => {
+let checkUsername = async (_rule: Rule, value: string) => {
+  if (!value) {
+    return Promise.reject('Tên đăng nhập đang bị bỏ trống!');
+  } else {
+    if (value.length < 4) {
+      return Promise.reject('Tên đăng nhâp phải từ 4 kí tự trở lên');
+    } else {
+      return Promise.resolve();
+    }
+  }
+};
+let checkPassword = async (_rule: Rule, value: string) => {
+  if (!value) {
+    return Promise.reject('Mật khẩu đang bị bỏ trống!');
+  } else {
+    if (value.length < 6) {
+      return Promise.reject('Mật khẩu phải từ 6 kí tự trở lên');
+    } else {
+      return Promise.resolve();
+    }
+  }
+};
+const rules: Record<string, Rule[]> = {
+  username: [{validator: checkUsername, trigger: 'change'}],
+  password: [{validator: checkPassword, trigger: 'change'}],
+};
+const layout = {
+  wrapperCol: {span: 24},
+};
+const handleFinish = (values: FormState) => {
   const authStore = useAuthStore();
   console.log('onFinish:', values);
   const {username, password} = values;
   return authStore.login(username, password).catch(error => console.log(error))
 };
-
-const onFinishFailed = (errorInfo: any) => {
-  console.log('Failed:', errorInfo);
+const handleFinishFailed = (errors: any) => {
+  console.log(errors);
 };
-
+const handleValidate = (...args: any[]) => {
+  console.log(args);
+};
 </script>
 
 <style lang="scss" scoped>

@@ -34,7 +34,6 @@
         <a-button type="primary" class="submit" html-type="submit">Đăng nhập</a-button>
       </a-form-item>
     </a-form>
-    <!--    <h1>{{ $route.redirectedFrom.fullPath }}</h1>-->
   </div>
 </template>
 
@@ -56,7 +55,6 @@ interface FormState {
 const route = useRoute();
 const router = useRouter();
 console.log(route.redirectedFrom?.fullPath)
-console.log(router)
 const formRef = ref<FormInstance>();
 const formState = reactive<FormState>({
   password: '',
@@ -96,10 +94,9 @@ const handleFinish = (values: FormState) => {
   console.log('onFinish:', values);
   const {username, password} = values;
   return authStore.login(username, password)
-      /*.then(() => {
-        console.log("success", route.redirectedFrom?.fullPath)
+      .then(() => {
         router.push(route.redirectedFrom?.fullPath || '/')
-      })*/
+      })
       .catch(error => console.log(error))
 };
 const handleFinishFailed = (errors: any) => {

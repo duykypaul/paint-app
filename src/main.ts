@@ -7,6 +7,7 @@ import router from '@/router/index.router'
 
 import '@/assets/main.css'
 import "ant-design-vue/dist/antd.css"
+import "@/assets/scss/_variables.scss";
 
 import AppLayoutGuess from '@/layouts/AppLayoutGuess.vue'
 import AppLayoutDefault from '@/layouts/AppLayoutDefault.vue'

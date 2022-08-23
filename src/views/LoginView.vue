@@ -45,7 +45,7 @@ import {useAuthStore} from "@/stores";
 import {LockOutlined, UserOutlined} from '@ant-design/icons-vue';
 
 
-import { useRouter, useRoute} from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 
 interface FormState {
   password: string;
@@ -110,10 +110,7 @@ const handleValidate = (...args: any[]) => {
 </script>
 
 <style lang="scss" scoped>
-$black: #000;
-$title-color: fade(#000, 85%);
-$text-color-second: fade($black, 45%);
-$primary-color: #1890ff;
+@import "./src/assets/scss/_variables.scss";
 .guess-layout {
   .top {
     text-align: center;
